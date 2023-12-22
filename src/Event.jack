@@ -1,0 +1,45 @@
+class Event {
+    field Player player;
+    field int ticker;
+    field int signal;
+
+    constructor Event new(Player p) {
+        let player = p;
+        let ticker = 0;
+        let signal = 0;
+        return this;
+    }
+    method void free() {
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    method void tick() {
+        let ticker = ticker + 1;
+        if(ticker = 5) {
+            if(signal = 1) {
+                do player.aim(1); let signal = 0;
+            }
+            if(signal = 2) {
+                do player.shoot(); let signal = 0;
+            }
+            if(signal = 3) {
+                do player.aim(2); let signal = 0;
+            }
+            let ticker = 0;
+        }
+        return;
+    }
+
+    method void handle(char key) {
+        // player movement
+        if(key = 119 | key = 87) {do player.move(1);}	// w
+        if(key = 97 | key = 65) {do player.move(2);}	// a
+        if(key = 115 | key = 83) {do player.move(3);}	// s
+        if(key = 100 | key = 68) {do player.move(4);}	// d
+        if(key = 106 | key = 74) {let signal = 1; let ticker = 0;}      // j
+        if(key = 107 | key = 75) {let signal = 2; let ticker = 0;}      // k
+        if(key = 108 | key = 76) {let signal = 3; let ticker = 0;}      // l
+        return;
+    }
+}

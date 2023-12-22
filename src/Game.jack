@@ -1,0 +1,38 @@
+class Game {
+	field Player player;
+	field Event event;
+
+	constructor Game new() {
+		let player = Player.new(100, 100);
+		let event = Event.new(player);
+		return this;
+	}
+	method void free() {
+		do player.free();
+		do event.free();
+		do Memory.deAlloc(this);
+		return;
+	}
+
+	method void run() {
+		var char key;
+		var boolean running;
+		let running = true;
+
+		while(running) {
+			let key = Keyboard.keyPressed();
+			if(key > 0) {
+				/* event */
+				do event.handle(key);
+				let key = 0;
+			}
+			/* tick */
+			do player.tick();
+			do event.tick();
+
+			/* render */
+			do Sys.wait(3);
+		}
+		return;
+	}
+}
