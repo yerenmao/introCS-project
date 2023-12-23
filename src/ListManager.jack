@@ -1,0 +1,77 @@
+class ListManager {
+    field Trap traphead;
+    field Trap traptail;
+    field int ticker;
+
+    constructor ListManager new() {
+        let traphead = null; let traptail = null;
+        let ticker = 0;
+        return this;
+    }
+
+    method void tick() {
+        if(ticker = 30) {
+            do ticktrap();
+            let ticker = 0;
+        } else {let ticker = ticker + 1;}
+        return;
+    }
+
+    method void inserttrap(Trap t) {
+        if((traphead = null) | (traptail = null)) {
+            let traphead = t; let traptail = t;
+        } else {
+            do traptail.setnext(t); do t.setprev(traptail);
+            let traptail = t;
+        }
+        return;
+    }
+
+    method void removetrap(Trap t) {
+        var boolean done;
+        var Trap ptr, prev, next;
+        let done = false;
+        let ptr = traphead;
+        while((~(ptr = null)) & (~done)) {
+            if(ptr = t) {
+                if((ptr = traphead) & (ptr = traptail)) {
+                    let traphead = null; let traptail = null;
+                } else {
+                    let prev = ptr.getprev();
+                    let next = ptr.getnext();
+                    if(~(prev = null)) {do prev.setnext(next);}
+                    if(~(next = null)) {do next.setprev(prev);}
+                    if(ptr = traphead) {let traphead = next;}
+                    if(ptr = traptail) {let traptail = prev;}
+                }
+                let done = true;
+            }
+            if(~done) {let ptr = ptr.getnext();}
+        }
+        return;
+    }
+
+    method boolean hittrap(int bx, int by, int bs) {
+        var Trap ptr;
+        let ptr = traphead;
+        while(~(ptr = null)) {
+            if(ptr.hitted(bx, by, bs)) {
+                do removetrap(ptr);
+                do ptr.free();
+                return true;
+            }
+            let ptr = ptr.getnext();
+        }
+        return false;
+    }
+
+    method void ticktrap() {
+        var Trap ptr;
+        let ptr = traphead;
+        while(~(ptr = null)) {
+            do ptr.tick();
+            let ptr = ptr.getnext();
+        }
+        return;
+    }
+}

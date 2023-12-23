@@ -1,13 +1,17 @@
 class Player {
     field int x, y;
     field int ax, ay, aimpt, aimload;
+    field int hp;
     field int size;
     field Bullet bullet;
     field int ticker;
+    field ListManager listman;
 
-    constructor Player new(int a, int b) {
+    constructor Player new(int a, int b, ListManager listmanager) {
         let x = a; let y = b; let size = 23;
+        let listman = listmanager;
         let aimpt = 0; let aimload = 8;
+        let hp = 22;
         do putaim();
         let bullet = null;
         do renderaim(true);
@@ -25,7 +29,6 @@ class Player {
         if(bullet) {
             let done = bullet.move();
             if(done) {
-                do Memory.deAlloc(bullet);
                 let bullet = null;
             }
         }
@@ -42,7 +45,7 @@ class Player {
     }
 
     method void move(int d) {
-        if((d = 1) & (y > 1)) {                 // w
+        if((d = 1) & (y > 11)) {                 // w
             do renderplayer(false);
             let y = y - 1;
             do renderplayer(true);
@@ -65,12 +68,17 @@ class Player {
         do renderaim(false);
         do putaim();
         do renderaim(true);
+
+        /* hit trap */
+        if(listman.hittrap(x, y, size)) {
+            let hp = hp - 3;
+        }
         return;
     }
 
     method void shoot() {
         if(aimload = 8) {
-            let bullet = Bullet.new(ax, ay, aimpt);
+            let bullet = Bullet.new(ax, ay, aimpt, listman);
             let aimload = 0;
         }
         return;
@@ -111,6 +119,7 @@ class Player {
     }
 
     method void renderplayer(boolean bool) {
+        do renderhpbar(bool);
         do Screen.setColor(bool);
         do Screen.drawRectangle(x+8, y, x+15, y);
         do Screen.drawRectangle(x+7, y+1, x+9, y+1);
@@ -185,6 +194,16 @@ class Player {
             if(aimload > 7)
                 {do Screen.drawPixel(ax+1, ay+2); do Screen.drawRectangle(ax+1, ay+1, ax+2, ay+1);}
         }
+        return;
+    }
+
+    method void renderhpbar(boolean bool) {
+        do Screen.setColor(bool);
+        do Screen.drawRectangle(x, y-9, x+size, y-9);
+        do Screen.drawRectangle(x, y-4, x+size, y-4);
+        do Screen.drawRectangle(x, y-8, x, y-5);
+        do Screen.drawRectangle(x+size, y-8, x+size, y-5);
+        do Screen.drawRectangle(x, y-8, x+hp, y-5);
         return;
     }
 }

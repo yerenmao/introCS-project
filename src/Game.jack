@@ -1,9 +1,13 @@
 class Game {
+	field ListManager listman;
+	field Background background;
 	field Player player;
 	field Event event;
 
 	constructor Game new() {
-		let player = Player.new(100, 100);
+		let listman = ListManager.new();
+		let background = Background.new(listman);
+		let player = Player.new(255-11, 127-11, listman);
 		let event = Event.new(player);
 		return this;
 	}
@@ -29,6 +33,7 @@ class Game {
 			/* tick */
 			do player.tick();
 			do event.tick();
+			do listman.tick();
 
 			/* render */
 			do Sys.wait(3);

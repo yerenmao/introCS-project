@@ -1,0 +1,49 @@
+class Trap {
+    field int x, y, size;
+    field Trap prev, next;
+
+    constructor Trap new(int a, int b) {
+        let x = a; let y = b; let size = 11;
+        let prev = null; let next = null;
+        do render(true);
+        return this;
+    }
+    method void free() {
+        do render(false);
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    method void tick() {
+        do render(true);
+        return;
+    }
+
+    method void render(boolean bool) {
+        do Screen.setColor(bool);
+        do Screen.drawRectangle(x+5, y, x+6, y+2);
+        do Screen.drawRectangle(x+4, y+2, x+4, y+4);
+        do Screen.drawRectangle(x+7, y+2, x+7, y+4);
+        do Screen.drawRectangle(x+3, y+4, x+3, y+6);
+        do Screen.drawRectangle(x+8, y+4, x+8, y+6);
+        do Screen.drawRectangle(x+2, y+6, x+2, y+8);
+        do Screen.drawRectangle(x+9, y+6, x+9, y+8);
+        do Screen.drawRectangle(x+1, y+8, x+1, y+10);
+        do Screen.drawRectangle(x+10, y+8, x+10, y+10);
+        do Screen.drawRectangle(x+2, y+10, x+9, y+10);
+        do Screen.drawRectangle(x+0, y+11, x+11, y+11);
+        return;
+    }
+
+    method boolean hitted(int bx, int by, int bs) {
+        if(Tools.collide(x, y, size, size, bx, by, bs, bs)) {
+            return true;
+        }
+        return false;
+    }
+
+    method Trap getprev() {return prev;}
+    method Trap getnext() {return next;}
+    method void setprev(Trap n) {let prev = n; return;}
+    method void setnext(Trap n) {let next = n; return;}
+}
