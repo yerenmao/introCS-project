@@ -22,13 +22,15 @@ class Game {
 	method void run() {
 		var char key;
 		var boolean running;
+		var boolean moved;
 		let running = true;
 		
 		while(running) {
+			let moved = false;
 			let key = Keyboard.keyPressed();
 			if(key > 0) {
 				/* event */
-				do event.handle(key);
+				let moved = event.handle(key);
 				let key = 0;
 			}
 			/* tick */
@@ -36,8 +38,12 @@ class Game {
 			do event.tick();
 			do listman.tick();
 
-			/* render */
-			do Sys.wait(3);
+			/* control game speed */
+			if(moved) {
+				do Sys.wait(1);
+			} else {
+				do Sys.wait(4);
+			}
 		}
 		return;
 	}

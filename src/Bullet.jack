@@ -1,10 +1,12 @@
 class Bullet {
     field int x, y, size, d;
     field ListManager listman;
+    field Bullet prev, next;
 
     constructor Bullet new(int a, int b, int dir, ListManager listmanager) {
         let x = a; let y = b; let d = dir;
         let size = 9;
+        let prev = null; let next = null;
         let listman = listmanager;
         return this;
     }
@@ -14,12 +16,18 @@ class Bullet {
         return;
     }
 
-    method boolean move() {
+    method void tick() {
+        do move();
+        return;
+    }
+
+    method void move() {
         if((y=1) | (x=1) | (y+size+1=256) | (x+size+1=512)
                  | listman.hittrap(x, y, size) 
                  | listman.hitenemy(x, y, size)) {
+            do listman.removebullet(this);
             do free();
-            return true;
+            return;
         }
         do render(false);
         if((d = 0) | (d = 1) | (d = 7)) {let y = y - 1;}
@@ -27,7 +35,7 @@ class Bullet {
         if((d = 3) | (d = 4) | (d = 5)) {let y = y + 1;}
         if((d = 5) | (d = 6) | (d = 7)) {let x = x - 1;}
         do render(true);
-        return false;
+        return;
     }
 
     method void render(boolean bool) {
@@ -39,4 +47,9 @@ class Bullet {
         do Screen.drawRectangle(x+1, y+1, x+8, y+8);
         return;
     }
+
+    method Bullet getprev() {return prev;}
+    method Bullet getnext() {return next;}
+    method void setprev(Bullet b) {let prev = b; return;}
+    method void setnext(Bullet b) {let next = b; return;}
 }

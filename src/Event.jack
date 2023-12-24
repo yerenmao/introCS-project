@@ -31,15 +31,17 @@ class Event {
         return;
     }
 
-    method void handle(char key) {
+    method boolean handle(char key) {
         // player movement
-        if(key = 119 | key = 87) {do player.move(1);}	// w
-        if(key = 97 | key = 65) {do player.move(2);}	// a
-        if(key = 115 | key = 83) {do player.move(3);}	// s
-        if(key = 100 | key = 68) {do player.move(4);}	// d
+        var boolean moved;
+        let moved = false;
+        if(key = 119 | key = 87) {do player.move(1); let moved = true;}	// w
+        if(key = 97 | key = 65) {do player.move(2); let moved = true;}	// a
+        if(key = 115 | key = 83) {do player.move(3); let moved = true;}	// s
+        if(key = 100 | key = 68) {do player.move(4); let moved = true;}	// d
         if(key = 106 | key = 74) {let signal = 1; let ticker = 0;}      // j
         if(key = 107 | key = 75) {let signal = 2; let ticker = 0;}      // k
         if(key = 108 | key = 76) {let signal = 3; let ticker = 0;}      // l
-        return;
+        return moved;
     }
 }

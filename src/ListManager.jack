@@ -3,16 +3,20 @@ class ListManager {
     field Trap traptail;
     field Enemy enemyhead;
     field Enemy enemytail;
+    field Bullet bullethead;
+    field Bullet bullettail;
     field int ticker;
 
     constructor ListManager new() {
         let traphead = null; let traptail = null;
         let enemyhead = null; let enemytail = null;
+        let bullethead = null; let bullettail = null;
         let ticker = 0;
         return this;
     }
 
     method void tick() {
+        do tickbullet();
         do tickenemy();
         if(ticker = 30) {
             do ticktrap();
@@ -132,6 +136,52 @@ class ListManager {
     method void tickenemy() {
         var Enemy ptr;
         let ptr = enemyhead;
+        while(~(ptr = null)) {
+            do ptr.tick();
+            let ptr = ptr.getnext();
+        }
+        return;
+    }
+
+    /* Bullet */
+
+    method void insertbullet(Bullet b) {
+        if((bullethead = null) | (bullettail = null)) {
+            let bullethead = b; let bullettail = b;
+        } else {
+            do bullettail.setnext(b); do b.setprev(bullettail);
+            let bullettail = b;
+        }
+        return;
+    }
+
+    method void removebullet(Bullet b) {
+        var boolean done;
+        var Bullet ptr, prev, next;
+        let done = false;
+        let ptr = bullethead;
+        while(~(ptr = null) & (~done)) {
+            if(ptr = b) {
+                if((ptr = bullethead) & (ptr = bullettail)) {
+                    let bullethead = null; let bullettail = null;
+                } else {
+                    let prev = ptr.getprev();
+                    let next = ptr.getnext();
+                    if(~(prev = null)) {do prev.setnext(next);}
+                    if(~(next = null)) {do next.setprev(prev);}
+                    if(ptr = bullethead) {let bullethead = next;}
+                    if(ptr = bullettail) {let bullettail = prev;}
+                }
+                let done = true;
+            }
+            if(~done) {let ptr = ptr.getnext();}
+        }
+        return;
+    }
+
+    method void tickbullet() {
+        var Bullet ptr;
+        let ptr = bullethead;
         while(~(ptr = null)) {
             do ptr.tick();
             let ptr = ptr.getnext();
