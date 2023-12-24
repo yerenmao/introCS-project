@@ -5,6 +5,7 @@ class Game {
 	field Event event;
 
 	constructor Game new() {
+		do Random.init();
 		let listman = ListManager.new();
 		let background = Background.new(listman);
 		let player = Player.new(255-11, 127-11, listman);
@@ -22,7 +23,7 @@ class Game {
 		var char key;
 		var boolean running;
 		let running = true;
-
+		
 		while(running) {
 			let key = Keyboard.keyPressed();
 			if(key > 0) {

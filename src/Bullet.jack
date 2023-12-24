@@ -15,11 +15,9 @@ class Bullet {
     }
 
     method boolean move() {
-        if((y=1) | (x=1) | (y+size+1=256) | (x+size+1=512)) {
-            do free();
-            return true;
-        }
-        if(listman.hittrap(x, y, size)) {
+        if((y=1) | (x=1) | (y+size+1=256) | (x+size+1=512)
+                 | listman.hittrap(x, y, size) 
+                 | listman.hitenemy(x, y, size)) {
             do free();
             return true;
         }

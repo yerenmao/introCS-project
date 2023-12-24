@@ -4,6 +4,7 @@ class Background {
     constructor Background new(ListManager listmanager) {
         let listman = listmanager;
         do createtraps();
+        do createenemies();
         return this;
     }
 
@@ -13,6 +14,11 @@ class Background {
         do listman.inserttrap(Trap.new(48, 72));
         do listman.inserttrap(Trap.new(192, 60));
         do listman.inserttrap(Trap.new(156, 180));
+        return;
+    }
+
+    method void createenemies() {
+        do listman.insertenemy(Enemy.new(11, 11, listman));
         return;
     }
 }

@@ -1,0 +1,159 @@
+class Enemy {
+    field int x, y, size;
+    field int rendervar, ticker;
+    field int hp;
+    field Enemy prev, next;
+    field int movetime, d;
+    field ListManager listman;
+
+    constructor Enemy new(int a, int b, ListManager listmanager) {
+        let x = a; let y = b; let size = 23;
+        let hp = 22; let movetime = 0; let d = 0;
+        let listman = listmanager;
+        do renderenemy(true);
+        return this;
+    }
+    method void free() {
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    method void tick() {
+        if(movetime = 0) {
+            do pickmove();
+        }
+        if(ticker = 20) {
+            let rendervar = Tools.mod(rendervar + 1, 16);
+            let ticker = 0;
+        }
+        if(Tools.mod(ticker, 5) = 0) {
+            do move();
+            let movetime = movetime - 1;
+        }
+        let ticker = ticker + 1;
+        return;
+    }
+
+    method void pickmove() {
+        let d = Tools.mod(Random.rand(), 4);
+        let movetime = Tools.mod(Random.rand(), 32) + 20;
+        return;
+    }
+
+    method void move() {
+        if(d = 0) {                // w
+            if(y > 11) {
+                do renderenemy(false);
+                let y = y - 1;
+                do renderenemy(true);
+            } else {let d = 2;}
+        }
+        if(d = 1) {                 // a
+            if(x > 1) {
+                do renderenemy(false);
+                let x = x - 1;
+                do renderenemy(true);
+            } else {let d = 3;}
+        }
+        if(d = 2) {        // s
+            if(y+size+1 < 256) {
+                do renderenemy(false);
+                let y = y + 1;
+                do renderenemy(true);
+            } else {let d = 0;}
+        }
+        if(d = 3) {        // d
+            if(x+size+1 < 512) {
+                do renderenemy(false);
+                let x = x + 1;
+                do renderenemy(true);
+            } else {let d = 1;}
+        }
+        return;
+    }
+
+    method boolean hitted(int bx, int by, int bs) {
+        if(Tools.collide(x, y, size, size, bx, by, bs, bs)) {
+            do renderenemy(false);
+            let hp = hp - 8;
+            if(~(hp > 0)) {
+                do listman.removeenemy(this);
+                do free();
+            } else {
+                do renderenemy(true);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    method void renderenemy(boolean bool) {
+        do renderhpbar(bool);
+        do Screen.setColor(bool);
+        do Screen.drawRectangle(x+1, y, x+5, y);
+        do Screen.drawRectangle(x+18, y, x+22, y);
+        do Screen.drawPixel(x+1, y+1);
+        do Screen.drawPixel(x+5, y+1);
+        do Screen.drawPixel(x+18, y+1);
+        do Screen.drawPixel(x+22, y+1);
+        do Screen.drawRectangle(x, y+2, x+size, y+2);
+        do Screen.drawRectangle(x, y+3, x, y+15);
+        do Screen.drawRectangle(x+size, y+3, x+size, y+15);
+        do Screen.drawRectangle(x, y+16, x+size, y+16);
+        do Screen.drawRectangle(x+10, y+17, x+10, y+20);
+        do Screen.drawRectangle(x+13, y+17, x+13, y+20);
+        do Screen.drawRectangle(x+4, y+21, x+10, y+21);
+        do Screen.drawRectangle(x+13, y+21, x+19, y+21);
+        do Screen.drawPixel(x+4, y+22);
+        do Screen.drawPixel(x+19, y+22);
+        do Screen.drawRectangle(x+4, y+23, x+19, y+23);
+
+        do Screen.drawRectangle(x+9, y+5, x+9, y+8);
+        do Screen.drawRectangle(x+14, y+5, x+14, y+8);
+        do Screen.drawRectangle(x+8, y+12, x+15, y+12);
+        if(hp > 14) {       // smile
+            do Screen.drawPixel(x+5, y+9);
+            do Screen.drawRectangle(x+5, y+10, x+6, y+10);
+            do Screen.drawRectangle(x+6, y+11, x+7, y+11);
+            do Screen.drawPixel(x+18, y+9);
+            do Screen.drawRectangle(x+17, y+10, x+18, y+10);
+            do Screen.drawRectangle(x+16, y+11, x+17, y+11);
+        } else {
+            if(hp < 7) {    // sad
+                do Screen.drawRectangle(x+6, y+13, x+7, y+13);
+                do Screen.drawRectangle(x+5, y+14, x+6, y+14);
+                do Screen.drawPixel(x+5, y+15);
+                do Screen.drawRectangle(x+16, y+13, x+17, y+13);
+                do Screen.drawRectangle(x+17, y+14, x+18, y+14);
+                do Screen.drawPixel(x+18, y+15);
+            }
+        }
+
+        if(Tools.mod(rendervar/4, 2) = 0) {
+            do Screen.drawRectangle(x+2, y+1, x+4, y+1);
+        } else {
+            do Screen.drawRectangle(x+19, y+1, x+21, y+1);
+        }
+        if(rendervar > 0) {
+            do Screen.drawPixel(x+4+rendervar, y+22);
+            do Screen.drawPixel(x+4+rendervar+1, y+22);
+        }
+        return;
+    }
+
+    method void renderhpbar(boolean bool) {
+        do Screen.setColor(bool);
+        do Screen.drawRectangle(x, y-9, x+size, y-9);
+        do Screen.drawRectangle(x, y-4, x+size, y-4);
+        do Screen.drawRectangle(x, y-8, x, y-5);
+        do Screen.drawRectangle(x+size, y-8, x+size, y-5);
+        do Screen.drawRectangle(x, y-8, x+hp, y-5);
+        return;
+    }
+
+    /* getters and setters */
+    method Enemy getprev() {return prev;}
+    method Enemy getnext() {return next;}
+    method void setprev(Enemy e) {let prev = e; return;}
+    method void setnext(Enemy e) {let next = e; return;}
+}

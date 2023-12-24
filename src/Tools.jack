@@ -2,7 +2,7 @@ class Tools {
     function int mod(int x, int y) {
         var int i;
         let i = 1;
-        while(x > (i*y)) {
+        while(x > (i*y) | (x = (i*y))) {
             let i = i + 1;
         }
         return x - ((i-1) * y);

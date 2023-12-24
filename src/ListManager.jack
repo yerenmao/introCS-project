@@ -1,21 +1,27 @@
 class ListManager {
     field Trap traphead;
     field Trap traptail;
+    field Enemy enemyhead;
+    field Enemy enemytail;
     field int ticker;
 
     constructor ListManager new() {
         let traphead = null; let traptail = null;
+        let enemyhead = null; let enemytail = null;
         let ticker = 0;
         return this;
     }
 
     method void tick() {
+        do tickenemy();
         if(ticker = 30) {
             do ticktrap();
             let ticker = 0;
         } else {let ticker = ticker + 1;}
         return;
     }
+
+    /* Trap */
 
     method void inserttrap(Trap t) {
         if((traphead = null) | (traptail = null)) {
@@ -68,6 +74,64 @@ class ListManager {
     method void ticktrap() {
         var Trap ptr;
         let ptr = traphead;
+        while(~(ptr = null)) {
+            do ptr.tick();
+            let ptr = ptr.getnext();
+        }
+        return;
+    }
+
+    /* Enemy */
+
+    method void insertenemy(Enemy e) {
+        if((enemyhead = null) | (enemytail = null)) {
+            let enemyhead = e; let enemytail = e;
+        } else {
+            do enemytail.setnext(e); do e.setprev(enemytail);
+            let enemytail = e;
+        }
+        return;
+    }
+
+    method void removeenemy(Enemy e) {
+        var boolean done;
+        var Enemy ptr, prev, next;
+        let done = false;
+        let ptr = enemyhead;
+        while((~(ptr = null)) & (~done)) {
+            if(ptr = e) {
+                if((ptr = enemyhead) & (ptr = enemytail)) {
+                    let enemyhead = null; let enemytail = null;
+                } else {
+                    let prev = ptr.getprev();
+                    let next = ptr.getnext();
+                    if(~(prev = null)) {do prev.setnext(next);}
+                    if(~(next = null)) {do next.setprev(prev);}
+                    if(ptr = enemyhead) {let enemyhead = next;}
+                    if(ptr = enemytail) {let enemytail = prev;}
+                }
+                let done = true;
+            }
+            if(~done) {let ptr = ptr.getnext();}
+        }
+        return;
+    }
+
+    method boolean hitenemy(int bx, int by, int bs) {
+        var Enemy ptr;
+        let ptr = enemyhead;
+        while(~(ptr = null)) {
+            if(ptr.hitted(bx, by, bs)) {
+                return true;
+            }
+            let ptr = ptr.getnext();
+        }
+        return false;
+    }
+
+    method void tickenemy() {
+        var Enemy ptr;
+        let ptr = enemyhead;
         while(~(ptr = null)) {
             do ptr.tick();
             let ptr = ptr.getnext();

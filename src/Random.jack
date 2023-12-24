@@ -1,0 +1,13 @@
+class Random {
+    static int x;
+
+    function void init() {
+        let x = 3;
+        return;
+    }
+
+    function int rand() {
+        let x = Tools.mod(((85 * x) + 13), 307);
+        return x;
+    }
+}
