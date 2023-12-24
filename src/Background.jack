@@ -18,7 +18,7 @@ class Background {
     }
 
     method void createenemies() {
-        do listman.insertenemy(Enemy.new(11, 11, listman));
+        do listman.insertenemy(Enemy.new(255-11, 127-11, listman));
         return;
     }
 }

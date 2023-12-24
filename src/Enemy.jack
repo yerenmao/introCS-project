@@ -1,6 +1,7 @@
 class Enemy {
     field int x, y, size;
     field int rendervar, ticker;
+    field int aimload;
     field int hp;
     field Enemy prev, next;
     field int movetime, d;
@@ -9,6 +10,7 @@ class Enemy {
     constructor Enemy new(int a, int b, ListManager listmanager) {
         let x = a; let y = b; let size = 23;
         let hp = 22; let movetime = 0; let d = 0;
+        let aimload = 0;
         let listman = listmanager;
         do renderenemy(true);
         return this;
@@ -23,6 +25,11 @@ class Enemy {
             do pickmove();
         }
         if(ticker = 20) {
+            let aimload = aimload + 1;
+            if(aimload > 26) {
+                do shoot();
+                let aimload = 0;
+            }
             let rendervar = Tools.mod(rendervar + 1, 16);
             let ticker = 0;
         }
@@ -68,6 +75,26 @@ class Enemy {
                 let x = x + 1;
                 do renderenemy(true);
             } else {let d = 1;}
+        }
+        return;
+    }
+
+    method void shoot() {
+        var int ax, ay, aimpt;
+        let aimpt = 0;
+        while(aimpt < 8) {
+            if(aimpt = 0) { let ax = x+11-4;    let ay = y+11-34-4; }
+            if(aimpt = 1) { let ax = x+11+24-4; let ay = y+11-24-4; }
+            if(aimpt = 2) { let ax = x+11+34-4; let ay = y+11-4; }
+            if(aimpt = 3) { let ax = x+11+24-4; let ay = y+11+24-4; }
+            if(aimpt = 4) { let ax = x+11-4;    let ay = y+11+34-4; }
+            if(aimpt = 5) { let ax = x+11-24-4; let ay = y+11+24-4; }
+            if(aimpt = 6) { let ax = x+11-34-4; let ay = y+11-4; }
+            if(aimpt = 7) { let ax = x+11-24-4; let ay = y+11-24-4; }
+            if((ax>1) & (ay>1) & (ax+10<512) & (ay+10<256)) {
+                do listman.insertenemybullet(EnemyBullet.new(ax, ay, aimpt, listman));
+            }
+            let aimpt = aimpt + 1;
         }
         return;
     }

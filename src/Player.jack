@@ -27,11 +27,18 @@ class Player {
         if(ticker < 20) {
             let ticker = ticker + 1;
         } else {
+            do renderplayer(true);
             if(aimload < 8) {
                 let aimload = aimload + 1;
                 do renderaim(true);
             }
             let ticker = 0;
+        }
+        /* hit by enemy bullet */
+        if(listman.hitenemybullet(x, y, size)) {
+            do renderplayer(false);
+            let hp = hp - 3;
+            do renderplayer(true);
         }
         return;
     }

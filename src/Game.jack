@@ -8,7 +8,7 @@ class Game {
 		do Random.init();
 		let listman = ListManager.new();
 		let background = Background.new(listman);
-		let player = Player.new(255-11, 127-11, listman);
+		let player = Player.new(255-11, 255-24, listman);
 		let event = Event.new(player);
 		return this;
 	}
