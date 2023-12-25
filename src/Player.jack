@@ -12,8 +12,6 @@ class Player {
         let aimpt = 0; let aimload = 8;
         let hp = 22;
         do putaim();
-        do renderaim(true);
-        do renderplayer(true);
         let ticker = 0;
         return this;
     }

@@ -3,13 +3,15 @@ class Game {
 	field Background background;
 	field Player player;
 	field Event event;
+	field int gamestage;
 
 	constructor Game new() {
 		do Random.init();
 		let listman = ListManager.new();
 		let background = Background.new(listman);
 		let player = Player.new(255-11, 255-24, listman);
-		let event = Event.new(player);
+		let event = Event.new(player, this);
+		let gamestage = 0;			// welcome
 		return this;
 	}
 	method void free() {
@@ -23,7 +25,9 @@ class Game {
 		var char key;
 		var boolean running;
 		var boolean moved;
+		var boolean bgrendered;
 		let running = true;
+		let bgrendered = false;
 		
 		while(running) {
 			let moved = false;
@@ -33,18 +37,36 @@ class Game {
 				let moved = event.handle(key);
 				let key = 0;
 			}
-			/* tick */
-			do player.tick();
-			do event.tick();
-			do listman.tick();
 
-			/* control game speed */
-			if(moved) {
-				do Sys.wait(1);
-			} else {
-				do Sys.wait(4);
+			if((gamestage = 0) & (~bgrendered)) {
+				do background.renderwelcome(0);
+				let bgrendered = true;
+			}
+			if(gamestage = 1) {
+				/* tick */
+				do player.tick();
+				do event.tick();
+				do listman.tick();
+
+				/* control game speed */
+				if(moved) {
+					do Sys.wait(1);
+				} else {
+					do Sys.wait(4);
+				}
 			}
 		}
+		return;
+	}
+
+	method int getgamestage() {
+		return gamestage;
+	}
+
+	method void setgamestage(int gs) {
+		let gamestage = gs;
+		do Screen.clearScreen();
+		do background.startgame1();
 		return;
 	}
 }

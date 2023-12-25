@@ -1,10 +1,12 @@
 class Event {
     field Player player;
+    field Game game;
     field int ticker;
     field int signal;
 
-    constructor Event new(Player p) {
+    constructor Event new(Player p, Game g) {
         let player = p;
+        let game = g;
         let ticker = 0;
         let signal = 0;
         return this;
@@ -35,13 +37,18 @@ class Event {
         // player movement
         var boolean moved;
         let moved = false;
-        if(key = 119 | key = 87) {do player.move(1); let moved = true;}	// w
-        if(key = 97 | key = 65) {do player.move(2); let moved = true;}	// a
-        if(key = 115 | key = 83) {do player.move(3); let moved = true;}	// s
-        if(key = 100 | key = 68) {do player.move(4); let moved = true;}	// d
-        if(key = 106 | key = 74) {let signal = 1; let ticker = 0;}      // j
-        if(key = 107 | key = 75) {let signal = 2; let ticker = 0;}      // k
-        if(key = 108 | key = 76) {let signal = 3; let ticker = 0;}      // l
+        if(game.getgamestage() = 0) {
+            if(key = 10 | key = 32) {do game.setgamestage(1);}  // 'space' or 'enter' => start game
+        }
+        if(game.getgamestage() = 1) {
+            if(key = 119 | key = 87) {do player.move(1); let moved = true;}	// w
+            if(key = 97 | key = 65) {do player.move(2); let moved = true;}	// a
+            if(key = 115 | key = 83) {do player.move(3); let moved = true;}	// s
+            if(key = 100 | key = 68) {do player.move(4); let moved = true;}	// d
+            if(key = 106 | key = 74) {let signal = 1; let ticker = 0;}      // j
+            if(key = 107 | key = 75) {let signal = 2; let ticker = 0;}      // k
+            if(key = 108 | key = 76) {let signal = 3; let ticker = 0;}      // l
+        }
         return moved;
     }
 }
