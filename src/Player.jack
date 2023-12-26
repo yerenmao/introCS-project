@@ -30,7 +30,7 @@ class Player {
             do renderhpbar(true);
             let firstrender = true;
         }
-        if(ticker < 20) {
+        if(ticker < 15) {
             let ticker = ticker + 1;
         } else {
             do renderplayer(true);
@@ -41,7 +41,7 @@ class Player {
             let ticker = 0;
         }
         /* hit by enemy bullet */
-        if(listman.hitenemybullet(x, y, size)) {
+        if(listman.hitenemybullet(x, y, size) | listman.hitenemybullet2(x, y, size)) {
             do losthp(3);
         }
         return;
@@ -242,4 +242,8 @@ class Player {
         do Screen.drawRectangle(x, y-8, x+hp, y-5);
         return;
     }
+
+    /* getters */
+    method int getx() {return x;}
+    method int gety() {return y;}
 }

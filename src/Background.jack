@@ -1,8 +1,10 @@
 class Background {
     field ListManager listman;
+    field Player player;
 
-    constructor Background new(ListManager listmanager) {
+    constructor Background new(ListManager listmanager, Player p) {
         let listman = listmanager;
+        let player = p;
         return this;
     }
 
@@ -29,14 +31,22 @@ class Background {
         do listman.inserttrap(Trap.new(255-5+160, 12+40));
         do listman.inserttrap(Trap.new(255-5+180, 12));
         /* enemy */
-        // do listman.insertenemy(Enemy.new(255-11-48, 12+24, listman));
         do listman.insertenemy(Enemy.new(255-11, 12, listman));
-        // do listman.insertenemy(Enemy.new(255-11-48, 12+24, listman));
         return;
     } 
     
     method void startgame3() {
-        do listman.inserttrap(Trap.new(255-5-180, 12));
+        /* enemy */
+        do listman.inserttrap(Trap.new(255-5+160, 12+120));
+        do listman.inserttrap(Trap.new(255-5+120, 12+120));
+        do listman.inserttrap(Trap.new(255-5+80, 12+120));
+        do listman.inserttrap(Trap.new(255-5+40, 12+120));
+        do listman.inserttrap(Trap.new(255-5, 12+120));
+        do listman.inserttrap(Trap.new(255-5-40, 12+120));
+        do listman.inserttrap(Trap.new(255-5-80, 12+120));
+        do listman.inserttrap(Trap.new(255-5-120, 12+120));
+        do listman.inserttrap(Trap.new(255-5-160, 12+120));
+        do listman.insertenemy2(Enemy2.new(255-11-48, 12+24, listman, player));
         return;
     }
 

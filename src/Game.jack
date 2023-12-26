@@ -8,8 +8,8 @@ class Game {
 	constructor Game new() {
 		do Random.init();
 		let listman = ListManager.new();
-		let background = Background.new(listman);
 		let player = Player.new(255-11, 255-24, listman, this);
+		let background = Background.new(listman, player);
 		let event = Event.new(player, this);
 		let gamestage = 0;			// welcome
 		return this;
@@ -64,7 +64,7 @@ class Game {
 						if(gamestage = 1) {
 							do setgamestage(2);
 						} else { if(gamestage = 2) {
-							do setgamestage(-1);
+							do setgamestage(3);
 						} else { if(gamestage = 3) {
 							do setgamestage(-1);	// victory
 						}}}

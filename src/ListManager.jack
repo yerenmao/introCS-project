@@ -7,6 +7,10 @@ class ListManager {
     field Bullet bullettail;
     field EnemyBullet ebhead;
     field EnemyBullet ebtail;
+    field Enemy2 enemy2head;
+    field Enemy2 enemy2tail;
+    field EnemyBullet2 eb2head;
+    field EnemyBullet2 eb2tail;
     field int ticker;
 
     constructor ListManager new() {
@@ -14,6 +18,8 @@ class ListManager {
         let enemyhead = null; let enemytail = null;
         let bullethead = null; let bullettail = null;
         let ebhead = null; let ebtail = null;
+        let enemy2head = null; let enemy2tail = null;
+        let eb2head = null; let eb2tail = null;
         let ticker = 0;
         return this;
     }
@@ -21,6 +27,8 @@ class ListManager {
     method void tick() {
         do tickenemy();
         do tickenemybullet();
+        do tickenemy2();
+        do tickenemybullet2();
         do tickbullet();
         if(ticker = 30) {
             do ticktrap();
@@ -42,13 +50,29 @@ class ListManager {
         while(~(ebhead = null)) {           // enemy bullet
             do removeenemybullet(ebhead);
         }
+        while(~(enemy2head = null)) {       // enemy2
+            do removeenemy2(enemy2head);
+        }
+        while(~(eb2head = null)) {          // enemy2 bullet
+            do removeenemybullet2(eb2head);
+        }
         return;
     }
 
     method boolean allcleared() {
-        if((traphead = null) & (enemyhead = null) & (bullethead = null) & (ebhead = null)) {
+        if((traphead = null) & (enemyhead = null) & (bullethead = null) & (ebhead = null) & (enemy2head = null) & (eb2head = null)) {
             return true;
         }
+        return false;
+    }
+
+    method boolean enemybulletempty() {
+        if(ebhead = null) {return true;}
+        return false;
+    }
+
+    method boolean enemybullet2empty() {
+        if(eb2head = null) {return true;}
         return false;
     }
 
@@ -269,6 +293,124 @@ class ListManager {
     method void tickenemybullet() {
         var EnemyBullet ptr;
         let ptr = ebhead;
+        while(~(ptr = null)) {
+            do ptr.tick();
+            let ptr = ptr.getnext();
+        }
+        return;
+    }
+
+    /* Enemy2 */
+
+    method void insertenemy2(Enemy2 e) {
+        if((enemy2head = null) | (enemy2tail = null)) {
+            let enemy2head = e; let enemy2tail = e;
+        } else {
+            do enemy2tail.setnext(e); do e.setprev(enemy2tail);
+            let enemy2tail = e;
+        }
+        return;
+    }
+
+    method void removeenemy2(Enemy2 e) {
+        var boolean done;
+        var Enemy2 ptr, prev, next;
+        let done = false;
+        let ptr = enemy2head;
+        while((~(ptr = null)) & (~done)) {
+            if(ptr = e) {
+                if((ptr = enemy2head) & (ptr = enemy2tail)) {
+                    let enemy2head = null; let enemy2tail = null;
+                } else {
+                    let prev = ptr.getprev();
+                    let next = ptr.getnext();
+                    if(~(prev = null)) {do prev.setnext(next);}
+                    if(~(next = null)) {do next.setprev(prev);}
+                    if(ptr = enemy2head) {let enemy2head = next;}
+                    if(ptr = enemy2tail) {let enemy2tail = prev;}
+                }
+                let done = true;
+            }
+            if(~done) {let ptr = ptr.getnext();}
+        }
+        return;
+    }
+
+    method boolean hitenemy2(int bx, int by, int bs) {
+        var Enemy2 ptr;
+        let ptr = enemy2head;
+        while(~(ptr = null)) {
+            if(ptr.hitted(bx, by, bs)) {
+                return true;
+            }
+            let ptr = ptr.getnext();
+        }
+        return false;
+    }
+
+    method void tickenemy2() {
+        var Enemy2 ptr;
+        let ptr = enemy2head;
+        while(~(ptr = null)) {
+            do ptr.tick();
+            let ptr = ptr.getnext();
+        }
+        return;
+    }
+
+    /* EnemyBullet2 */
+
+    method void insertenemybullet2(EnemyBullet2 eb2) {
+        if((eb2head = null) | (eb2tail = null)) {
+            let eb2head = eb2; let eb2tail = eb2;
+        } else {
+            do eb2tail.setnext(eb2); do eb2.setprev(eb2tail);
+            let eb2tail = eb2;
+        }
+        return;
+    }
+
+    method void removeenemybullet2(EnemyBullet2 eb2) {
+        var boolean done;
+        var EnemyBullet2 ptr, prev, next;
+        let done = false;
+        let ptr = eb2head;
+        while((~(ptr = null)) & (~done)) {
+            if(ptr = eb2) {
+                if((ptr = eb2head) & (ptr = eb2tail)) {
+                    let eb2head = null; let eb2tail = null;
+                } else {
+                    let prev = ptr.getprev();
+                    let next = ptr.getnext();
+                    if(~(prev = null)) {do prev.setnext(next);}
+                    if(~(next = null)) {do next.setprev(prev);}
+                    if(ptr = eb2head) {let eb2head = next;}
+                    if(ptr = eb2tail) {let eb2tail = next;}
+                }
+                let done = true;
+            }
+            if(~done) {let ptr = ptr.getnext();}
+        }
+        return;
+    }
+
+    method boolean hitenemybullet2(int bx, int by, int bs) {
+        var EnemyBullet2 ptr;
+        let ptr = eb2head;
+        while(~(ptr = null)) {
+            if(ptr.hitted(bx, by, bs)) {
+                do removeenemybullet2(ptr);
+                do ptr.free();
+                return true;
+            }
+            let ptr = ptr.getnext();
+        }
+        return false;
+    }
+
+    method void tickenemybullet2() {
+        var EnemyBullet2 ptr;
+        let ptr = eb2head;
         while(~(ptr = null)) {
             do ptr.tick();
             let ptr = ptr.getnext();

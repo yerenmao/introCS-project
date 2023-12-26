@@ -1,0 +1,222 @@
+class Enemy2 {
+    field int x, y, size;
+    field int ax, ay, aimpt;
+    field int rendervar, ticker;
+    field int aimload;
+    field int hp;
+    field Enemy2 prev, next;
+    field int movetime, d;
+    field ListManager listman;
+    field Player player;
+
+    constructor Enemy2 new(int a, int b, ListManager listmanager, Player p) {
+        let x = a; let y = b; let size = 23;
+        let rendervar = 0; let ticker = 0;
+        let hp = 22; let movetime = 0; let d = 0;
+        let aimload = Tools.mod(Random.rand(), 15) + 25;
+        let prev = null; let next = null;
+        let listman = listmanager;
+        let player = p;
+        do renderenemy(true);
+        return this;
+    }
+    method void free() {
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    method void tick() {
+        if(movetime = 0) {
+            do pickmove();
+        }
+        if(ticker = 20) {
+            let aimload = aimload - 1;
+            if(aimload = 0) {
+                do shoot();
+                let aimload = Tools.mod(Random.rand(), 15) + 25;
+            }
+            let rendervar = Tools.mod(rendervar + 1, 16);
+            let ticker = 0;
+        }
+        if(Tools.mod(ticker, 5) = 0) {
+            do move();
+            let movetime = movetime - 1;
+        }
+        let ticker = ticker + 1;
+        return;
+    }
+
+    method void pickmove() {
+        let d = Tools.mod(Random.rand(), 4);
+        let movetime = Tools.mod(Random.rand(), 32) + 20;
+        return;
+    }
+
+    method void move() {
+        if(d = 0) {                // w
+            if(y > (11+3)) {
+                do renderenemy(false);
+                let y = y - 3;
+                do renderenemy(true);
+            } else {let d = 2;}
+        }
+        if(d = 1) {                 // a
+            if(x > (1+3)) {
+                do renderenemy(false);
+                let x = x - 3;
+                do renderenemy(true);
+            } else {let d = 3;}
+        }
+        if(d = 2) {                 // s
+            if((y+size+1+3) < 256) {
+                do renderenemy(false);
+                let y = y + 3;
+                do renderenemy(true);
+            } else {let d = 0;}
+        }
+        if(d = 3) {                 // d
+            if((x+size+1+3) < 512) {
+                do renderenemy(false);
+                let x = x + 3;
+                do renderenemy(true);
+            } else {let d = 1;}
+        }
+        return;
+    }
+
+    method void shoot() {
+        if(listman.enemybullet2empty()) {
+            if((player.getx() < x) & (player.gety() < y)) {
+                let aimpt = 6; do putaim(); do fire();
+                let aimpt = 7; do putaim(); do fire();
+                let aimpt = 0; do putaim(); do fire();
+            } else {if((player.getx() > x) & (player.gety() < y)) {
+                let aimpt = 0; do putaim(); do fire();
+                let aimpt = 1; do putaim(); do fire();
+                let aimpt = 2; do putaim(); do fire();
+            } else {if((player.getx() > x) & (player.gety() > y)) {
+                let aimpt = 2; do putaim(); do fire();
+                let aimpt = 3; do putaim(); do fire();
+                let aimpt = 4; do putaim(); do fire();
+            } else {if((player.getx() < x) & (player.gety() > y)) {
+                let aimpt = 4; do putaim(); do fire();
+                let aimpt = 5; do putaim(); do fire();
+                let aimpt = 6; do putaim(); do fire();
+            } else {if(player.getx() < x) {
+                let aimpt = 5; do putaim(); do fire();
+                let aimpt = 6; do putaim(); do fire();
+                let aimpt = 7; do putaim(); do fire();
+            } else {if(player.getx() > x) {
+                let aimpt = 1; do putaim(); do fire();
+                let aimpt = 2; do putaim(); do fire();
+                let aimpt = 3; do putaim(); do fire();
+            } else {if(player.gety() < y) {
+                let aimpt = 7; do putaim(); do fire();
+                let aimpt = 0; do putaim(); do fire();
+                let aimpt = 1; do putaim(); do fire();
+            } else {if(player.gety() > y) {
+                let aimpt = 3; do putaim(); do fire();
+                let aimpt = 4; do putaim(); do fire();
+                let aimpt = 5; do putaim(); do fire();
+            }}}}}}}}
+        }
+        return;
+    }
+
+    method void putaim() {
+        if(aimpt = 0) { let ax = x+11-4;    let ay = y+11-34-4; }
+        if(aimpt = 1) { let ax = x+11+24-4; let ay = y+11-24-4; }
+        if(aimpt = 2) { let ax = x+11+34-4; let ay = y+11-4; }
+        if(aimpt = 3) { let ax = x+11+24-4; let ay = y+11+24-4; }
+        if(aimpt = 4) { let ax = x+11-4;    let ay = y+11+34-4; }
+        if(aimpt = 5) { let ax = x+11-24-4; let ay = y+11+24-4; }
+        if(aimpt = 6) { let ax = x+11-34-4; let ay = y+11-4; }
+        if(aimpt = 7) { let ax = x+11-24-4; let ay = y+11-24-4; }
+        return;
+    }
+
+    method void fire() {
+        if((ax>1) & (ay>1) & (ax+10<512) & (ay+10<256)) {
+            do listman.insertenemybullet2(EnemyBullet2.new(ax, ay, aimpt, listman));
+        }
+        return;
+    }
+
+    method boolean hitted(int bx, int by, int bs) {
+        if(Tools.collide(x, y, size, size, bx, by, bs, bs)) {
+            do renderenemy(false);
+            let hp = hp - 4;
+            if(~(hp > 0)) {
+                do listman.removeenemy2(this);
+                do free();
+            } else {
+                do renderenemy(true);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    method void renderenemy(boolean bool) {
+        do renderhpbar(bool);
+        do Screen.setColor(bool);
+        do Screen.drawRectangle(x+8, y, x+15, y);
+        do Screen.drawRectangle(x+6, y+1, x+17, y+1);
+        do Screen.drawRectangle(x+5, y+2, x+5, y+2);
+        do Screen.drawRectangle(x+18, y+2, x+18, y+2);
+        do Screen.drawRectangle(x+3, y+3, x+4, y+3);
+        do Screen.drawRectangle(x+19, y+3, x+20, y+3);
+        do Screen.drawRectangle(x+3, y+4, x+3, y+4);
+        do Screen.drawRectangle(x+20, y+4, x+20, y+4);
+        do Screen.drawRectangle(x+2, y+5, x+2, y+5);
+        do Screen.drawRectangle(x+21, y+5, x+21, y+5);
+        do Screen.drawRectangle(x, y+8, x, y+14);
+        do Screen.drawRectangle(x+1, y+6, x+1, y+16);
+        do Screen.drawRectangle(x+23, y+8, x+23, y+14);
+        do Screen.drawRectangle(x+22, y+6, x+22, y+16);
+        do Screen.drawRectangle(x+5, y+20, x+5, y+20);
+        do Screen.drawRectangle(x+18, y+20, x+18, y+20);
+        do Screen.drawRectangle(x+3, y+19, x+4, y+19);
+        do Screen.drawRectangle(x+19, y+19, x+20, y+19);
+        do Screen.drawRectangle(x+3, y+18, x+3, y+18);
+        do Screen.drawRectangle(x+20, y+18, x+20, y+18);
+        do Screen.drawRectangle(x+2, y+17, x+2, y+17);
+        do Screen.drawRectangle(x+21, y+17, x+21, y+17);
+        do Screen.drawRectangle(x+8, y+22, x+15, y+22);
+        do Screen.drawRectangle(x+6, y+21, x+17, y+21);
+        // face
+        do Screen.drawRectangle(x+9, y+5, x+9, y+8);
+        do Screen.drawRectangle(x+14, y+5, x+14, y+8);
+        do Screen.drawRectangle(x+11, y+10, x+12, y+11);
+        do Screen.drawRectangle(x+5, y+14, x+6, y+14);
+        do Screen.drawRectangle(x+8, y+14, x+10, y+14);
+        do Screen.drawRectangle(x+13, y+14, x+15, y+14);
+        do Screen.drawRectangle(x+17, y+14, x+18, y+14);
+        do Screen.drawRectangle(x+6, y+17, x+8, y+17);
+        do Screen.drawRectangle(x+10, y+17, x+13, y+17);
+        do Screen.drawRectangle(x+15, y+17, x+17, y+17);
+        do Screen.drawRectangle(x+6, y+15, x+6, y+16);
+        do Screen.drawRectangle(x+8, y+15, x+8, y+16);
+        do Screen.drawRectangle(x+10, y+15, x+10, y+16);
+        do Screen.drawRectangle(x+13, y+15, x+13, y+16);
+        do Screen.drawRectangle(x+15, y+15, x+15, y+16);
+        do Screen.drawRectangle(x+17, y+15, x+17, y+16);
+        return;
+    }
+
+    method void renderhpbar(boolean bool) {
+        do Screen.setColor(bool);
+        do Screen.drawRectangle(x, y-9, x+size, y-9);
+        do Screen.drawRectangle(x, y-4, x+size, y-4);
+        do Screen.drawRectangle(x, y-8, x, y-5);
+        do Screen.drawRectangle(x+size, y-8, x+size, y-5);
+        do Screen.drawRectangle(x, y-8, x+hp, y-5);
+        return;
+    }
+
+    /* getters and setters */
+    method Enemy2 getprev() {return prev;}
+    method Enemy2 getnext() {return next;}
+    method void setprev(Enemy e) {let prev = e; return;}
+    method void setnext(Enemy e) {let next = e; return;}
+}

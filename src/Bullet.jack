@@ -24,7 +24,8 @@ class Bullet {
     method void move() {
         if((y=1) | (x=1) | (y+size+1=256) | (x+size+1=512)
                  | listman.hittrap(x, y, size) 
-                 | listman.hitenemy(x, y, size)) {
+                 | listman.hitenemy(x, y, size)
+                 | listman.hitenemy2(x, y, size)) {
             do listman.removebullet(this);
             do free();
             return;

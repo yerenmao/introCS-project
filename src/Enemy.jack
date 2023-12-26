@@ -51,28 +51,28 @@ class Enemy {
 
     method void move() {
         if(d = 0) {                // w
-            if(y > 11) {
+            if(y > (11+2)) {
                 do renderenemy(false);
                 let y = y - 2;
                 do renderenemy(true);
             } else {let d = 2;}
         }
         if(d = 1) {                 // a
-            if(x > 1) {
+            if(x > (1+2)) {
                 do renderenemy(false);
                 let x = x - 2;
                 do renderenemy(true);
             } else {let d = 3;}
         }
         if(d = 2) {                 // s
-            if(y+size+1 < 256) {
+            if((y+size+1+2) < 256) {
                 do renderenemy(false);
                 let y = y + 2;
                 do renderenemy(true);
             } else {let d = 0;}
         }
         if(d = 3) {                 // d
-            if(x+size+1 < 512) {
+            if((x+size+1+2) < 512) {
                 do renderenemy(false);
                 let x = x + 2;
                 do renderenemy(true);
