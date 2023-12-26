@@ -29,6 +29,29 @@ class ListManager {
         return;
     }
 
+    method void clearall() {
+        while(~(traphead = null)) {         // trap
+            do removetrap(traphead);
+        }
+        while(~(enemyhead = null)) {        // enemy
+            do removeenemy(enemyhead);
+        }
+        while(~(bullethead = null)) {       // bullet
+            do removebullet(bullethead);
+        }
+        while(~(ebhead = null)) {           // enemy bullet
+            do removeenemybullet(ebhead);
+        }
+        return;
+    }
+
+    method boolean allcleared() {
+        if((traphead = null) & (enemyhead = null) & (bullethead = null) & (ebhead = null)) {
+            return true;
+        }
+        return false;
+    }
+
     /* Trap */
 
     method void inserttrap(Trap t) {

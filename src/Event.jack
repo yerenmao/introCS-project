@@ -36,11 +36,13 @@ class Event {
     method boolean handle(char key) {
         // player movement
         var boolean moved;
+        var int gamestage;
         let moved = false;
-        if(game.getgamestage() = 0) {
+        let gamestage = game.getgamestage();
+        if((gamestage = 0) | (gamestage = -1) | (gamestage = -2)) {
             if(key = 10 | key = 32) {do game.setgamestage(1);}  // 'space' or 'enter' => start game
         }
-        if(game.getgamestage() = 1) {
+        if(gamestage = 1) {
             if(key = 119 | key = 87) {do player.move(1); let moved = true;}	// w
             if(key = 97 | key = 65) {do player.move(2); let moved = true;}	// a
             if(key = 115 | key = 83) {do player.move(3); let moved = true;}	// s

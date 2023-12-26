@@ -9,7 +9,7 @@ class Game {
 		do Random.init();
 		let listman = ListManager.new();
 		let background = Background.new(listman);
-		let player = Player.new(255-11, 255-24, listman);
+		let player = Player.new(255-11, 255-24, listman, this);
 		let event = Event.new(player, this);
 		let gamestage = 0;			// welcome
 		return this;
@@ -38,21 +38,31 @@ class Game {
 				let key = 0;
 			}
 
-			if((gamestage = 0) & (~bgrendered)) {
-				do background.renderwelcome(0);
-				let bgrendered = true;
+			if((gamestage = 0) | (gamestage = -1) | (gamestage = -2)) {
+				if(~bgrendered) {
+					do background.renderwelcome(gamestage);
+					let bgrendered = true;
+				}
 			}
 			if(gamestage = 1) {
+				let bgrendered = false;
 				/* tick */
 				do player.tick();
-				do event.tick();
-				do listman.tick();
+				if(gamestage = 1) {
+					do event.tick();
+					do listman.tick();
 
-				/* control game speed */
-				if(moved) {
-					do Sys.wait(1);
-				} else {
-					do Sys.wait(4);
+					/* control game speed */
+					if(moved) {
+						do Sys.wait(1);
+					} else {
+						do Sys.wait(4);
+					}
+
+					/* check won */
+					if(listman.allcleared()) {
+						do setgamestage(-1);	// victory
+					}
 				}
 			}
 		}
@@ -66,7 +76,10 @@ class Game {
 	method void setgamestage(int gs) {
 		let gamestage = gs;
 		do Screen.clearScreen();
-		do background.startgame1();
+		do player.reset();
+		if(gamestage = 1) {
+			do background.startgame1();
+		}
 		return;
 	}
 }

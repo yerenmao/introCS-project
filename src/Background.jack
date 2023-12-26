@@ -26,6 +26,147 @@ class Background {
         return;
     }
 
+    method void rendervictory() {
+        var int strx, stry, strs;
+        var int vv, ii, cc, tt, oo, rr, yy;
+        let strx = 285; let stry = 130; let strs = 2;
+        let vv = strx;
+        let ii = vv + (9*strs) + 3;
+        let cc = ii + (9*strs) + 3;
+        let tt = cc + (9*strs) + 3;
+        let oo = tt + (9*strs) + 3;
+        let rr = oo + (9*strs) + 3;
+        let yy = rr + (9*strs) + 3;
+        do Screen.setColor(true);
+        // border
+        do Screen.drawRectangle(vv-10, stry-10, yy+(9*strs)-1+10, stry-10+1);
+        do Screen.drawRectangle(vv-10, stry+(12*strs)-1+10, yy+(9*strs)-1+10, stry+(12*strs)-1+10+1);
+        do Screen.drawRectangle(vv-10, stry-10, vv-10+1, stry+(12*strs)-1+10+1);
+        do Screen.drawRectangle(yy+(9*strs)-1+10, stry-10, yy+(9*strs)-1+10+1, stry+(12*strs)-1+10+1);
+        // V
+        do Screen.drawRectangle(vv+(0*strs), stry+(0*strs), vv+(1*strs)-1, stry+(4*strs)-1);
+        do Screen.drawRectangle(vv+(1*strs), stry+(3*strs), vv+(2*strs)-1, stry+(7*strs)-1);
+        do Screen.drawRectangle(vv+(2*strs), stry+(6*strs), vv+(3*strs)-1, stry+(9*strs)-1);
+        do Screen.drawRectangle(vv+(3*strs), stry+(8*strs), vv+(4*strs)-1, stry+(11*strs)-1);
+        do Screen.drawRectangle(vv+(4*strs), stry+(10*strs), vv+(5*strs)-1, stry+(12*strs)-1);
+        do Screen.drawRectangle(vv+(8*strs), stry+(0*strs), vv+(9*strs)-1, stry+(4*strs)-1);
+        do Screen.drawRectangle(vv+(7*strs), stry+(3*strs), vv+(8*strs)-1, stry+(7*strs)-1);
+        do Screen.drawRectangle(vv+(6*strs), stry+(6*strs), vv+(7*strs)-1, stry+(9*strs)-1);
+        do Screen.drawRectangle(vv+(5*strs), stry+(8*strs), vv+(6*strs)-1, stry+(11*strs)-1);
+        // I
+        do Screen.drawRectangle(ii+(0*strs), stry+(0*strs), ii+(9*strs)-1, stry+(1*strs)-1);
+        do Screen.drawRectangle(ii+(0*strs), stry+(11*strs), ii+(9*strs)-1, stry+(12*strs)-1);
+        do Screen.drawRectangle(ii+(4*strs), stry+(0*strs), ii+(5*strs)-1, stry+(12*strs)-1);
+        // C
+        do Screen.drawRectangle(cc+(2*strs), stry+(0*strs), cc+(8*strs)-1, stry+(1*strs)-1);
+        do Screen.drawRectangle(cc+(1*strs), stry+(1*strs), cc+(3*strs)-1, stry+(2*strs)-1);
+        do Screen.drawRectangle(cc+(7*strs), stry+(1*strs), cc+(9*strs)-1, stry+(2*strs)-1);
+        do Screen.drawRectangle(cc+(0*strs), stry+(2*strs), cc+(2*strs)-1, stry+(3*strs)-1);
+        do Screen.drawRectangle(cc+(8*strs), stry+(2*strs), cc+(9*strs)-1, stry+(3*strs)-1);
+        do Screen.drawRectangle(cc+(0*strs), stry+(3*strs), cc+(1*strs)-1, stry+(9*strs)-1);
+        do Screen.drawRectangle(cc+(2*strs), stry+(11*strs), cc+(8*strs)-1, stry+(12*strs)-1);
+        do Screen.drawRectangle(cc+(1*strs), stry+(10*strs), cc+(3*strs)-1, stry+(11*strs)-1);
+        do Screen.drawRectangle(cc+(7*strs), stry+(10*strs), cc+(9*strs)-1, stry+(11*strs)-1);
+        do Screen.drawRectangle(cc+(0*strs), stry+(9*strs), cc+(2*strs)-1, stry+(10*strs)-1);
+        do Screen.drawRectangle(cc+(8*strs), stry+(9*strs), cc+(9*strs)-1, stry+(10*strs)-1);
+        // T
+        do Screen.drawRectangle(tt+(0*strs), stry+(0*strs), tt+(9*strs)-1, stry+(1*strs)-1);
+        do Screen.drawRectangle(tt+(4*strs), stry+(1*strs), tt+(5*strs)-1, stry+(12*strs)-1);
+        // O
+        do Screen.drawRectangle(oo+(2*strs), stry+(0*strs), oo+(7*strs)-1, stry+(1*strs)-1);
+        do Screen.drawRectangle(oo+(1*strs), stry+(1*strs), oo+(3*strs)-1, stry+(2*strs)-1);
+        do Screen.drawRectangle(oo+(6*strs), stry+(1*strs), oo+(8*strs)-1, stry+(2*strs)-1);
+        do Screen.drawRectangle(oo+(0*strs), stry+(2*strs), oo+(2*strs)-1, stry+(3*strs)-1);
+        do Screen.drawRectangle(oo+(7*strs), stry+(2*strs), oo+(9*strs)-1, stry+(3*strs)-1);
+        do Screen.drawRectangle(oo+(0*strs), stry+(3*strs), oo+(1*strs)-1, stry+(9*strs)-1);
+        do Screen.drawRectangle(oo+(2*strs), stry+(11*strs), oo+(7*strs)-1, stry+(12*strs)-1);
+        do Screen.drawRectangle(oo+(1*strs), stry+(10*strs), oo+(3*strs)-1, stry+(11*strs)-1);
+        do Screen.drawRectangle(oo+(6*strs), stry+(10*strs), oo+(8*strs)-1, stry+(11*strs)-1);
+        do Screen.drawRectangle(oo+(0*strs), stry+(9*strs), oo+(2*strs)-1, stry+(10*strs)-1);
+        do Screen.drawRectangle(oo+(7*strs), stry+(9*strs), oo+(9*strs)-1, stry+(10*strs)-1);
+        do Screen.drawRectangle(oo+(8*strs), stry+(3*strs), oo+(9*strs)-1, stry+(9*strs)-1);
+        // R
+        do Screen.drawRectangle(rr+(1*strs), stry+(0*strs), rr+(8*strs)-1, stry+(1*strs)-1);
+        do Screen.drawRectangle(rr+(7*strs), stry+(1*strs), rr+(9*strs)-1, stry+(2*strs)-1);
+        do Screen.drawRectangle(rr+(1*strs), stry+(5*strs), rr+(8*strs)-1, stry+(6*strs)-1);
+        do Screen.drawRectangle(rr+(7*strs), stry+(4*strs), rr+(9*strs)-1, stry+(5*strs)-1);
+        do Screen.drawRectangle(rr+(8*strs), stry+(1*strs), rr+(9*strs)-1, stry+(5*strs)-1);
+        do Screen.drawRectangle(rr+(0*strs), stry+(0*strs), rr+(1*strs)-1, stry+(12*strs)-1);
+        do Screen.drawRectangle(rr+(1*strs), stry+(6*strs), rr+(3*strs)-1, stry+(7*strs)-1);
+        do Screen.drawRectangle(rr+(2*strs), stry+(7*strs), rr+(5*strs)-1, stry+(8*strs)-1);
+        do Screen.drawRectangle(rr+(4*strs), stry+(8*strs), rr+(6*strs)-1, stry+(9*strs)-1);
+        do Screen.drawRectangle(rr+(5*strs), stry+(9*strs), rr+(8*strs)-1, stry+(10*strs)-1);
+        do Screen.drawRectangle(rr+(7*strs), stry+(10*strs), rr+(9*strs)-1, stry+(11*strs)-1);
+        do Screen.drawRectangle(rr+(8*strs), stry+(11*strs), rr+(9*strs)-1, stry+(12*strs)-1);
+        // Y
+        do Screen.drawRectangle(yy+(0*strs), stry+(0*strs), yy+(1*strs)-1, stry+(2*strs)-1);
+        do Screen.drawRectangle(yy+(1*strs), stry+(1*strs), yy+(2*strs)-1, stry+(4*strs)-1);
+        do Screen.drawRectangle(yy+(2*strs), stry+(3*strs), yy+(3*strs)-1, stry+(6*strs)-1);
+        do Screen.drawRectangle(yy+(3*strs), stry+(5*strs), yy+(4*strs)-1, stry+(7*strs)-1);
+        do Screen.drawRectangle(yy+(4*strs), stry+(6*strs), yy+(5*strs)-1, stry+(12*strs)-1);
+        do Screen.drawRectangle(yy+(8*strs), stry+(0*strs), yy+(9*strs)-1, stry+(2*strs)-1);
+        do Screen.drawRectangle(yy+(7*strs), stry+(1*strs), yy+(8*strs)-1, stry+(4*strs)-1);
+        do Screen.drawRectangle(yy+(6*strs), stry+(3*strs), yy+(7*strs)-1, stry+(6*strs)-1);
+        do Screen.drawRectangle(yy+(5*strs), stry+(5*strs), yy+(6*strs)-1, stry+(7*strs)-1);
+        return;
+    }
+
+    method void renderdefeat() {
+        var int strx, stry, strs;
+        var int dd, ee, ff, eee, aa, tt;
+        let strx = 295; let stry = 130; let strs = 2;
+        let dd = strx;
+        let ee = dd + (9*strs) + 3;
+        let ff = ee + (9*strs) + 3;
+        let eee = ff + (9*strs) + 3;
+        let aa = eee + (9*strs) + 3;
+        let tt = aa + (9*strs) + 3;
+        do Screen.setColor(true);
+        // border
+        do Screen.drawRectangle(dd-10, stry-10, tt+(9*strs)-1+10, stry-10+1);
+        do Screen.drawRectangle(dd-10, stry+(12*strs)-1+10, tt+(9*strs)-1+10, stry+(12*strs)-1+10+1);
+        do Screen.drawRectangle(dd-10, stry-10, dd-10+1, stry+(12*strs)-1+10+1);
+        do Screen.drawRectangle(tt+(9*strs)-1+10, stry-10, tt+(9*strs)-1+10+1, stry+(12*strs)-1+10+1);
+        // D
+        do Screen.drawRectangle(dd+(0*strs), stry+(0*strs), dd+(6*strs)-1, stry+(1*strs)-1);
+        do Screen.drawRectangle(dd+(5*strs), stry+(1*strs), dd+(8*strs)-1, stry+(2*strs)-1);
+        do Screen.drawRectangle(dd+(7*strs), stry+(2*strs), dd+(9*strs)-1, stry+(3*strs)-1);
+        do Screen.drawRectangle(dd+(0*strs), stry+(0*strs), dd+(1*strs)-1, stry+(12*strs)-1);
+        do Screen.drawRectangle(dd+(0*strs), stry+(11*strs), dd+(6*strs)-1, stry+(12*strs)-1);
+        do Screen.drawRectangle(dd+(5*strs), stry+(10*strs), dd+(8*strs)-1, stry+(11*strs)-1);
+        do Screen.drawRectangle(dd+(7*strs), stry+(9*strs), dd+(9*strs)-1, stry+(10*strs)-1);
+        do Screen.drawRectangle(dd+(8*strs), stry+(2*strs), dd+(9*strs)-1, stry+(10*strs)-1);
+        // E
+        do Screen.drawRectangle(ee+(1*strs), stry+(0*strs), ee+(9*strs)-1, stry+(1*strs)-1);
+        do Screen.drawRectangle(ee+(1*strs), stry+(5*strs), ee+(9*strs)-1, stry+(6*strs)-1);
+        do Screen.drawRectangle(ee+(1*strs), stry+(11*strs), ee+(9*strs)-1, stry+(12*strs)-1);
+        do Screen.drawRectangle(ee+(0*strs), stry+(0*strs), ee+(1*strs)-1, stry+(12*strs)-1);
+        // F
+        do Screen.drawRectangle(ff+(1*strs), stry+(0*strs), ff+(9*strs)-1, stry+(1*strs)-1);
+        do Screen.drawRectangle(ff+(1*strs), stry+(5*strs), ff+(9*strs)-1, stry+(6*strs)-1);
+        do Screen.drawRectangle(ff+(0*strs), stry+(0*strs), ff+(1*strs)-1, stry+(12*strs)-1);
+        // E
+        do Screen.drawRectangle(eee+(1*strs), stry+(0*strs), eee+(9*strs)-1, stry+(1*strs)-1);
+        do Screen.drawRectangle(eee+(1*strs), stry+(5*strs), eee+(9*strs)-1, stry+(6*strs)-1);
+        do Screen.drawRectangle(eee+(1*strs), stry+(11*strs), eee+(9*strs)-1, stry+(12*strs)-1);
+        do Screen.drawRectangle(eee+(0*strs), stry+(0*strs), eee+(1*strs)-1, stry+(12*strs)-1);
+        // A
+        do Screen.drawRectangle(aa+(0*strs), stry+(8*strs), aa+(1*strs)-1, stry+(12*strs)-1);
+        do Screen.drawRectangle(aa+(1*strs), stry+(4*strs), aa+(2*strs)-1, stry+(9*strs)-1);
+        do Screen.drawRectangle(aa+(2*strs), stry+(2*strs), aa+(3*strs)-1, stry+(5*strs)-1);
+        do Screen.drawRectangle(aa+(3*strs), stry+(1*strs), aa+(4*strs)-1, stry+(3*strs)-1);
+        do Screen.drawRectangle(aa+(3*strs), stry+(0*strs), aa+(6*strs)-1, stry+(1*strs)-1);
+        do Screen.drawRectangle(aa+(8*strs), stry+(8*strs), aa+(9*strs)-1, stry+(12*strs)-1);
+        do Screen.drawRectangle(aa+(7*strs), stry+(4*strs), aa+(8*strs)-1, stry+(9*strs)-1);
+        do Screen.drawRectangle(aa+(6*strs), stry+(2*strs), aa+(7*strs)-1, stry+(5*strs)-1);
+        do Screen.drawRectangle(aa+(5*strs), stry+(1*strs), aa+(6*strs)-1, stry+(3*strs)-1);
+        do Screen.drawRectangle(aa+(2*strs), stry+(7*strs), aa+(7*strs)-1, stry+(8*strs)-1);
+        // T
+        do Screen.drawRectangle(tt+(0*strs), stry+(0*strs), tt+(9*strs)-1, stry+(1*strs)-1);
+        do Screen.drawRectangle(tt+(4*strs), stry+(1*strs), tt+(5*strs)-1, stry+(12*strs)-1);
+        return;
+    }
+
     method void renderwelcome(int type) {
         var int ghostx, ghosty;
         var int strx, stry, strs;
@@ -40,14 +181,14 @@ class Background {
             do Output.printString("press J and L to adjust you aim point");
             do Output.moveCursor(14, 30);
             do Output.printString("press K to fire the bullet");
-            do Output.moveCursor(19, 35);
         }
-        if(type = 1) {
-
+        if(type = -1) {
+            do rendervictory();
         }
-        if(type = 2) {
-            
+        if(type = -2) {
+            do renderdefeat();
         }
+        do Output.moveCursor(19, 35);
         do Output.printString("press space to start");
 
         /* Ghost */

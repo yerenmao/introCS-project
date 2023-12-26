@@ -9,8 +9,10 @@ class Enemy {
 
     constructor Enemy new(int a, int b, ListManager listmanager) {
         let x = a; let y = b; let size = 23;
+        let rendervar = 0; let ticker = 0;
         let hp = 22; let movetime = 0; let d = 0;
         let aimload = 0;
+        let prev = null; let next = null;
         let listman = listmanager;
         do renderenemy(true);
         return this;

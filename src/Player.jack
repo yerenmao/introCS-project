@@ -4,15 +4,18 @@ class Player {
     field int hp;
     field int size;
     field int ticker;
+    field boolean firstrender;
     field ListManager listman;
+    field Game game;
 
-    constructor Player new(int a, int b, ListManager listmanager) {
+    constructor Player new(int a, int b, ListManager listmanager, Game g) {
         let x = a; let y = b; let size = 23;
-        let listman = listmanager;
+        let listman = listmanager; let game = g;
         let aimpt = 0; let aimload = 8;
         let hp = 22;
-        do putaim();
         let ticker = 0;
+        let firstrender = false;
+        do putaim();
         return this;
     }
     method void free() {
@@ -21,7 +24,12 @@ class Player {
     }
 
     method void tick() {
-        var boolean done;
+        if(~(firstrender)) {
+            do renderplayer(true);
+            do renderaim(true);
+            do renderhpbar(true);
+            let firstrender = true;
+        }
         if(ticker < 20) {
             let ticker = ticker + 1;
         } else {
@@ -34,10 +42,18 @@ class Player {
         }
         /* hit by enemy bullet */
         if(listman.hitenemybullet(x, y, size)) {
-            do renderplayer(false);
-            let hp = hp - 3;
-            do renderplayer(true);
+            do losthp(3);
         }
+        return;
+    }
+
+    method void reset() {
+        let x = 255-11; let y = 255-24;
+        let aimpt = 0; let aimload = 8;
+        let hp = 22;
+        do putaim();
+        let ticker = 0;
+        let firstrender = false;
         return;
     }
 
@@ -68,7 +84,24 @@ class Player {
 
         /* hit trap */
         if(listman.hittrap(x, y, size)) {
-            let hp = hp - 3;
+            do losthp(3);
+        }
+        return;
+    }
+
+    method void losthp(int lhp) {
+        do renderplayer(false);
+        do renderaim(false);
+        do renderhpbar(false);
+        let hp = hp - lhp;
+        if((hp < 0) | (hp = 0)) {
+            do reset();
+            do listman.clearall();
+            do game.setgamestage(-2);
+        } else {
+            do renderplayer(true);
+            do renderaim(true);
+            do renderhpbar(true);
         }
         return;
     }
