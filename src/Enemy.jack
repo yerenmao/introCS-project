@@ -11,7 +11,7 @@ class Enemy {
         let x = a; let y = b; let size = 23;
         let rendervar = 0; let ticker = 0;
         let hp = 22; let movetime = 0; let d = 0;
-        let aimload = 0;
+        let aimload = Tools.mod(Random.rand(), 15) + 25;
         let prev = null; let next = null;
         let listman = listmanager;
         do renderenemy(true);
@@ -27,10 +27,10 @@ class Enemy {
             do pickmove();
         }
         if(ticker = 20) {
-            let aimload = aimload + 1;
-            if(aimload > 26) {
+            let aimload = aimload - 1;
+            if(aimload = 0) {
                 do shoot();
-                let aimload = 0;
+                let aimload = Tools.mod(Random.rand(), 15) + 25;
             }
             let rendervar = Tools.mod(rendervar + 1, 16);
             let ticker = 0;
@@ -53,28 +53,28 @@ class Enemy {
         if(d = 0) {                // w
             if(y > 11) {
                 do renderenemy(false);
-                let y = y - 1;
+                let y = y - 2;
                 do renderenemy(true);
             } else {let d = 2;}
         }
         if(d = 1) {                 // a
             if(x > 1) {
                 do renderenemy(false);
-                let x = x - 1;
+                let x = x - 2;
                 do renderenemy(true);
             } else {let d = 3;}
         }
-        if(d = 2) {        // s
+        if(d = 2) {                 // s
             if(y+size+1 < 256) {
                 do renderenemy(false);
-                let y = y + 1;
+                let y = y + 2;
                 do renderenemy(true);
             } else {let d = 0;}
         }
-        if(d = 3) {        // d
+        if(d = 3) {                 // d
             if(x+size+1 < 512) {
                 do renderenemy(false);
-                let x = x + 1;
+                let x = x + 2;
                 do renderenemy(true);
             } else {let d = 1;}
         }
@@ -104,7 +104,7 @@ class Enemy {
     method boolean hitted(int bx, int by, int bs) {
         if(Tools.collide(x, y, size, size, bx, by, bs, bs)) {
             do renderenemy(false);
-            let hp = hp - 8;
+            let hp = hp - 4;
             if(~(hp > 0)) {
                 do listman.removeenemy(this);
                 do free();
@@ -140,32 +140,45 @@ class Enemy {
         do Screen.drawRectangle(x+9, y+5, x+9, y+8);
         do Screen.drawRectangle(x+14, y+5, x+14, y+8);
         do Screen.drawRectangle(x+8, y+12, x+15, y+12);
-        if(hp > 14) {       // smile
+
+        if(~(bool)) {
             do Screen.drawPixel(x+5, y+9);
             do Screen.drawRectangle(x+5, y+10, x+6, y+10);
             do Screen.drawRectangle(x+6, y+11, x+7, y+11);
             do Screen.drawPixel(x+18, y+9);
             do Screen.drawRectangle(x+17, y+10, x+18, y+10);
             do Screen.drawRectangle(x+16, y+11, x+17, y+11);
-        } else {
-            if(hp < 7) {    // sad
-                do Screen.drawRectangle(x+6, y+13, x+7, y+13);
-                do Screen.drawRectangle(x+5, y+14, x+6, y+14);
-                do Screen.drawPixel(x+5, y+15);
-                do Screen.drawRectangle(x+16, y+13, x+17, y+13);
-                do Screen.drawRectangle(x+17, y+14, x+18, y+14);
-                do Screen.drawPixel(x+18, y+15);
-            }
-        }
-
-        if(Tools.mod(rendervar/4, 2) = 0) {
+            do Screen.drawRectangle(x+6, y+13, x+7, y+13);
+            do Screen.drawRectangle(x+5, y+14, x+6, y+14);
+            do Screen.drawPixel(x+5, y+15);
+            do Screen.drawRectangle(x+16, y+13, x+17, y+13);
+            do Screen.drawRectangle(x+17, y+14, x+18, y+14);
+            do Screen.drawPixel(x+18, y+15);
             do Screen.drawRectangle(x+2, y+1, x+4, y+1);
-        } else {
             do Screen.drawRectangle(x+19, y+1, x+21, y+1);
-        }
-        if(rendervar > 0) {
-            do Screen.drawPixel(x+4+rendervar, y+22);
-            do Screen.drawPixel(x+4+rendervar+1, y+22);
+        } else {
+            if(hp > 14) {       // smile
+                do Screen.drawPixel(x+5, y+9);
+                do Screen.drawRectangle(x+5, y+10, x+6, y+10);
+                do Screen.drawRectangle(x+6, y+11, x+7, y+11);
+                do Screen.drawPixel(x+18, y+9);
+                do Screen.drawRectangle(x+17, y+10, x+18, y+10);
+                do Screen.drawRectangle(x+16, y+11, x+17, y+11);
+            } else {
+                if(hp < 7) {    // sad
+                    do Screen.drawRectangle(x+6, y+13, x+7, y+13);
+                    do Screen.drawRectangle(x+5, y+14, x+6, y+14);
+                    do Screen.drawPixel(x+5, y+15);
+                    do Screen.drawRectangle(x+16, y+13, x+17, y+13);
+                    do Screen.drawRectangle(x+17, y+14, x+18, y+14);
+                    do Screen.drawPixel(x+18, y+15);
+                }
+            }
+            if(Tools.mod(rendervar/4, 2) = 0) {
+                do Screen.drawRectangle(x+2, y+1, x+4, y+1);
+            } else {
+                do Screen.drawRectangle(x+19, y+1, x+21, y+1);
+            }
         }
         return;
     }

@@ -47,10 +47,12 @@ class Player {
         return;
     }
 
-    method void reset() {
+    method void reset(boolean includehp) {
         let x = 255-11; let y = 255-24;
         let aimpt = 0; let aimload = 8;
-        let hp = 22;
+        if(includehp) {
+            let hp = 22;
+        }
         do putaim();
         let ticker = 0;
         let firstrender = false;
@@ -90,24 +92,21 @@ class Player {
     }
 
     method void losthp(int lhp) {
-        do renderplayer(false);
-        do renderaim(false);
-        do renderhpbar(false);
+        do renderall(false);
         let hp = hp - lhp;
         if((hp < 0) | (hp = 0)) {
-            do reset();
+            do reset(true);
             do listman.clearall();
             do game.setgamestage(-2);
         } else {
-            do renderplayer(true);
-            do renderaim(true);
-            do renderhpbar(true);
+            do renderall(true);
         }
         return;
     }
 
     method void shoot() {
         if(aimload = 8) {
+            do Random.rand();
             do listman.insertbullet(Bullet.new(ax, ay, aimpt, listman));
             let aimload = 0;
         }
@@ -146,6 +145,13 @@ class Player {
         } else {
             return false;
         }
+    }
+
+    method void renderall(boolean bool) {
+        do renderplayer(bool);
+        do renderaim(bool);
+        do renderhpbar(bool);
+        return;
     }
 
     method void renderplayer(boolean bool) {

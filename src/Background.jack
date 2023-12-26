@@ -7,12 +7,6 @@ class Background {
     }
 
     method void startgame1() {
-        do createtraps();
-        do createenemies();
-        return;
-    }
-
-    method void createtraps() {
         do listman.inserttrap(Trap.new(348, 36));
         do listman.inserttrap(Trap.new(372, 156));
         do listman.inserttrap(Trap.new(48, 72));
@@ -21,8 +15,28 @@ class Background {
         return;
     }
 
-    method void createenemies() {
-        do listman.insertenemy(Enemy.new(255-11, 127-11, listman));
+    method void startgame2() {
+        /* trap */
+        do listman.inserttrap(Trap.new(255-5-180, 12));
+        do listman.inserttrap(Trap.new(255-5-160, 12+40));
+        do listman.inserttrap(Trap.new(255-5-128, 12+72));
+        do listman.inserttrap(Trap.new(255-5-88, 12+100));
+        do listman.inserttrap(Trap.new(255-5-44, 12+115));
+        do listman.inserttrap(Trap.new(255-5, 12+120));
+        do listman.inserttrap(Trap.new(255-5+44, 12+115));
+        do listman.inserttrap(Trap.new(255-5+88, 12+100));
+        do listman.inserttrap(Trap.new(255-5+128, 12+72));
+        do listman.inserttrap(Trap.new(255-5+160, 12+40));
+        do listman.inserttrap(Trap.new(255-5+180, 12));
+        /* enemy */
+        // do listman.insertenemy(Enemy.new(255-11-48, 12+24, listman));
+        do listman.insertenemy(Enemy.new(255-11, 12, listman));
+        // do listman.insertenemy(Enemy.new(255-11-48, 12+24, listman));
+        return;
+    } 
+    
+    method void startgame3() {
+        do listman.inserttrap(Trap.new(255-5-180, 12));
         return;
     }
 
